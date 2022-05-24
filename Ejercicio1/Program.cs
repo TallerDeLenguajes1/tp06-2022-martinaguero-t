@@ -44,7 +44,7 @@ do
     }
 
     Console.WriteLine("El resultado es: " + CalcUsuario.resultado);
-    
+
     do
     {
         Console.WriteLine("¿Desea seguir realizando operaciones?");
@@ -54,13 +54,4 @@ do
 
 } while (seguirUsandoCalculadora == 1);
 
-
-Calculadora Calculadora1 = new Calculadora(10);
-Console.WriteLine("Se inicializa resultado en Calculadora1 con 10: " + Calculadora1.resultado);
-
-Calculadora1.Sumar(20);
-Console.WriteLine("Se suma 20: " + Calculadora1.resultado);
-
-Calculadora1.Dividir(3);
-Console.WriteLine("Se divide en 3: " + Calculadora1.resultado);
 
