@@ -53,6 +53,7 @@ public class Empleado {
     public int edad(){
 
         // Completar calculo de la edad
+        int edad = 0;
         
         return edad;
 
