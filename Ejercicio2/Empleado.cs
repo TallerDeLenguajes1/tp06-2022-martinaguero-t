@@ -3,15 +3,10 @@ public class Empleado {
     private string nombre;
     private string apellido;
     private DateTime fechaNacimiento;
-
     private char estadoCivil;
-
     private char genero;
-
     private DateTime fechaIngreso;
-
     private double sueldo;
-
     private Cargos cargo;
 
     // Constructor
