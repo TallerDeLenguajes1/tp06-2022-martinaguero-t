@@ -2,23 +2,20 @@ public class Empleado {
 
     private string nombre;
     private string apellido;
-    public DateTime fechaNacimiento;
+    private DateTime fechaNacimiento;
 
-    public char estadoCivil;
+    private char estadoCivil;
 
-    public char genero;
+    private char genero;
 
-    public DateTime fechaIngreso;
+    private DateTime fechaIngreso;
 
-    public double sueldo;
+    private double sueldo;
 
-    public cargos cargo;
+    private Cargos cargo;
 
-    public string Nombre { get => nombre ; set => nombre = value; }
-
-    public string Apellido { get => apellido; set => apellido = value; }
-
-    public Empleado(string nombreEmpleado, string apellidoEmpleado, DateTime fechaNacimientoEmpleado, DateTime fechaIngresoEmpleado){
+    // Constructor
+    public Empleado(string nombreEmpleado, string apellidoEmpleado, DateTime fechaNacimientoEmpleado, char generoE, ECivil estadoCivilEmpleado, DateTime fechaIngresoEmpleado, double sueldoBasicoEmpleado, Cargos cargoEmpleado){
 
         if(!string.IsNullOrEmpty(nombreEmpleado)) nombre = nombreEmpleado; else nombre = "";
 
@@ -28,9 +25,23 @@ public class Empleado {
 
         fechaIngreso = fechaIngresoEmpleado;
         
+        sueldo = sueldoBasicoEmpleado;
+
+        genero = generoE;
+
+        cargo = cargoEmpleado;
+
+        estadoCivil = (char) estadoCivilEmpleado;
     }
 
-    public enum cargos {
+    public enum ECivil {
+        S = 'S',
+        C = 'C',
+        D = 'D',
+        V = 'V'
+    }
+
+    public enum Cargos {
         Auxiliar,
         Administrativo,
         Ingeniero,
@@ -38,27 +49,74 @@ public class Empleado {
         Investigador
     }
 
-    public int antiguedad(){
+    // Métodos
+    public int Antiguedad(){
 
-        int currentYear = DateTime.Today.Year;
+        int antiguedad = DateTime.Now.Year - fechaIngreso.Year;
 
-        int antiguedad = currentYear - fechaIngreso.Year;
-
-        // Completar calculo de la antiguedad
+         if((DateTime.Now.Month == fechaIngreso.Month && DateTime.Now.Day < fechaIngreso.Day) || DateTime.Now.Month < fechaIngreso.Month) antiguedad--;
 
         return antiguedad;
 
     }
 
-    public int edad(){
+    public int Edad(){
 
-        // Completar calculo de la edad
-        int edad = 0;
-        
+        int edad = DateTime.Now.Year - fechaNacimiento.Year;
+
+        if((DateTime.Now.Month == fechaNacimiento.Month && DateTime.Now.Day < fechaNacimiento.Day) || DateTime.Now.Month < fechaNacimiento.Month) edad--;
+      
         return edad;
 
     }
 
+    public double Salario(){
+
+        double adicional = 0;
+
+        if(Antiguedad() < 20){
+            adicional = sueldo * (Antiguedad()*0.01);
+        } else {
+            adicional = sueldo * 0.25;
+        }
+
+        if(cargo == Cargos.Ingeniero || cargo == Cargos.Especialista){
+            adicional += adicional*0.5;
+        }
+
+        if(estadoCivil == 'C'){
+            adicional += 15000;
+        }
+
+        return sueldo + adicional;
+
+    }
+
+    public void MostrarInfoPersonalEmpleado(){
+        Console.WriteLine("Nombre: " + nombre);
+        Console.WriteLine("Apellido: " + apellido);
+        Console.WriteLine("Fecha de nacimiento: " + fechaNacimiento.ToString("dd-MM-yyyy") + $" (edad: {Edad()} años) ");
+        Console.WriteLine("Genero: " + genero);
+        Console.WriteLine("Estado Civil: " + estadoCivil);
+    }
+
+    public void MostrarInfoLaboralEmpleado(){
+        Console.WriteLine("Fecha de ingreso: " + fechaIngreso.ToString("dd-MM-yyyy") + $" (antiguedad: {Antiguedad()} años) ");
+        Console.WriteLine("Cargo: " + cargo);
+        Console.WriteLine("Sueldo básico: $" + sueldo);
+        Console.WriteLine("Salario: $" + Salario());
+    }
+
+    public void MostrarInfoEmpleado(){
+
+        Console.WriteLine("-> Información personal: ");
+        MostrarInfoPersonalEmpleado();
+        Console.Write("\n");
+        Console.WriteLine("-> Información laboral: ");
+        MostrarInfoLaboralEmpleado();
+        Console.WriteLine("=======================================");
+    }
+   
 
 
 }
